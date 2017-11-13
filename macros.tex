@@ -1,0 +1,148 @@
+%% camera ready
+\newcommand{\change}[2]{{#1}}
+\newcommand{\parab}[1]{{#1}}
+
+\clubpenalty=10000
+\widowpenalty = 10000
+
+%% smaller fonts 
+\let\oldtexttt\texttt
+\renewcommand{\texttt}[1]{{\small \oldtexttt{#1}}}
+\let\oldfootnote\footnote
+\renewcommand{\footnote}[1]{{\oldfootnote{\scriptsize #1}}}
+
+%% squeeze figure spaces
+%%\addtolength{\subfigcapskip}{-5pt}
+\setlength{\textfloatsep}{10pt} % for permission box 
+\setlength{\floatsep}{0pt}
+\setlength{\dblfloatsep}{0pt}
+\setlength{\dbltextfloatsep}{5pt}
+\setlength{\abovecaptionskip}{2pt}
+%%\setlength{\intextsep}{0pt}
+
+\AtBeginBibliography{\small}
+\setlength\biblabelsep{2pt}
+\let\OLDthebibliography\thebibliography
+\renewcommand\thebibliography[1]{
+  \OLDthebibliography{#1}
+  \setlength{\itemindent}{0pt}
+}
+
+\renewcommand{\captionfont}{\small}
+\renewcommand{\captionlabelfont}{\small}
+
+\newcommand{\matlabsubfigure}[1]{\includegraphics[width=1.5in,keepaspectratio, trim={0 0 0.9cm 0},clip]{#1}}
+\newcommand{\matlabsubfigurez}[1]{\includegraphics[width=1.5in,keepaspectratio, trim={0 0 0cm 0},clip]{#1}}
+
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\ie}{\emph{i.e.,}\xspace}
+\newcommand{\eg}{\emph{e.g.,}\xspace}
+
+%% sqeeze space for equations
+\usepackage{etoolbox}
+\apptocmd\normalsize{%
+\abovedisplayskip=0pt
+\abovedisplayshortskip=0pt
+\belowdisplayskip=0pt
+\belowdisplayshortskip=0pt
+}{}{}
+
+
+%%%%% Squeezing space before sections, subsections, and re-defining
+%%%%% paragraphs
+\makeatletter
+\let\origsection\section
+\let\origsubsection\subsection
+\let\origparagraph\paragraph
+
+\renewcommand\section{\@ifstar{\starsection}{\nostarsection}}
+\renewcommand\subsection{\@ifstar{\starsubsection}{\nostarsubsection}}
+\renewcommand\paragraph{\@ifstar{\starpara}{\nostarpara}}
+
+%% Change these
+\newcommand\sectionprelude{\vspace{-0.5ex}}
+\newcommand\sectionpostlude{\vspace{-0.5ex}}
+\newcommand\subsectionprelude{\vspace{-0.5ex}}
+\newcommand\subsectionpostlude{\vspace{-0ex}}
+\newcommand\paraspace{\vspace*{-2ex}}
+
+\newcommand\nostarsection[1]{\sectionprelude\origsection{#1}\sectionpostlude}
+\newcommand\starsection[1]{\sectionprelude\origsection*{#1}\sectionpostlude}
+
+\newcommand\nostarsubsection[1]{\subsectionprelude\origsubsection{#1}\subsectionpostlude}
+\newcommand\starssubection[1]{\subsectionprelude\origsubsection*{#1}\subsectionpostlude}
+
+\newcommand\starpara[1]{\paraspace\noindent\origparagraph*{\textbf{#1}}}
+\newcommand\nostarpara[1]{\paraspace\noindent\origparagraph*{\textbf{#1}}}
+\newcommand\subparagraph[1]{\paraspace\noindent\origparagraph*{\textit{#1}}}
+\makeatother
+
+
+%% Copyright
+\CopyrightYear{2016}
+\setcopyright{acmcopyright}
+\conferenceinfo{SIGCOMM '16,}{August 22-26, 2016, Florianopolis , Brazil}
+\isbn{978-1-4503-4193-6/16/08}\acmPrice{\$15.00}
+\doi{http://dx.doi.org/10.1145/2934872.2934879}
+
+%classification
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10003033.10003058.10003064</concept_id>
+<concept_desc>Networks~End nodes</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10003033.10003099.10003105</concept_id>
+<concept_desc>Networks~Network monitoring</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10003033.10003106.10003110</concept_id>
+<concept_desc>Networks~Data center networks</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Networks~End nodes}
+\ccsdesc[500]{Networks~Network monitoring}
+\ccsdesc[500]{Networks~Data center networks}
+
+%%% page number
+\makeatletter
+\@ifpackageloaded{hyperref}{%
+  \def\elabel#1{\label{#1}}%
+}{%
+  \def\elabel#1{\@bsphack \protected@write \@auxout {}{\string \newlabel {#1}{{\theAlgoLine }{\thepage }}}\@esphack}%
+}
+\makeatother
+
+%%% Backref magic
+\DefineBibliographyStrings{english}{%
+  backrefpage = {Cited on page},
+  backrefpages = {Cited on pages},
+}
+%\renewbibmacro{pageref}{%
+%  \iflistundef{pageref}
+%    {\printtext[parens]{Not Cited}} 
+%    {%
+%     \printtext[parens]{\ifnumgreater{\value{pageref}}{1}   
+%       {\bibstring{backrefpages}} 
+%       {\bibstring{backrefpage}}
+%       \printlist [pageref][-\value{listtotal}]{pageref}}}}    
+
+%\DeclareListFormat{pageref}{%
+%     % == 2 references
+%    \ifthenelse{\value{liststop} < 3}{\ifthenelse{\value{listcount}<\value{liststop}}{\hyperpage{#1} and }{\hyperpage{#1}}} %
+%    { % > 2 references
+%        \ifthenelse{\value{listcount}<\value{liststop}}
+%          {\hyperpage{#1}\addcomma\addspace}
+%          {\ifnumequal{\value{listcount}}{\value{liststop}}
+%            {and \hyperpage{#1}}
+%            {}%
+%          }%
+%    }%  
+%}
+
